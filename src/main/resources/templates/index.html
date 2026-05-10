@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Pagina de inicio</h2>
+    <p th:text="${mensaje}"></p>
+    <p th:text="${dato}"></p>
+
+    <hr>
+
+    <b>CEDULA: </b><span th:text="${alguien.cedula}"></span><br>
+    <b>CLAVE: </b><span th:text="${alguien.clave}"></span><br>
+    <b>NOMBRE: </b><span th:text="${alguien.nombre}"></span><br>
+    <b>EMAIL: </b><span th:text="${alguien.email}"></span><br>
+</body>
+</html>
