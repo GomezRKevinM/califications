@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+<head th:replace="plantillas/partes :: head"></head>
+<body class="box-border bg-white select-none">
     <header th:replace="plantillas/partes :: cabecero"></header>
-    <h2>Pagina de inicio</h2>
-    <a th:href="@{/agregar}">AGREGAR USUARIO</a>
-    <hr>
+    <h2 class="text-sm text-gray-400 px-4">Pagina de inicio</h2>
+    <a class="p-8 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Usuario" th:href="@{/agregar}">
+        <i id="add-icon" class="bi bi-person-plus text-2xl"></i>
+    </a>
 
-    <h4>LISTA DE PERSONAS</h4>
-    <hr>
-    <div th:if="${usuarios != null and !usuarios.empty}">
-        <table border="1">
-            <tr>
+    <h4 class="mx-4 px-4 bg-gray-200">LISTA DE PERSONAS</h4>
+
+    <div class="mx-4" th:if="${usuarios != null and !usuarios.empty}">
+        <table class="table table-fixed border-collapse border-gray-300 border-1 w-full text-center">
+            <tr class="text-cyan-500">
                 <th>CEDULA</th>
                 <th>CLAVE</th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
-                <th>ACTION</th>
+                <th>ACTIONS</th>
             </tr>
-            <tr th:each="u: ${usuarios}">
-                <td th:text="${u.cedula}"></td>
-                <td th:text="${u.clave}"></td>
-                <td th:text="${u.nombre}"></td>
-                <td th:text="${u.email}"></td>
-                <td><a th:href="@{/editar/}+${u.cedula}" th:text="EDITAR"></a> <a th:href="@{/eliminar(cedula=${u.cedula})}" th:text="ELIMINAR"></a></td>
+            <tr class="odd:bg-white even:bg-slate-100" th:each="u: ${usuarios}">
+                <td class="py-2" th:text="${u.cedula}"></td>
+                <td class="py-2" th:text="${u.clave}"></td>
+                <td class="py-2" th:text="${u.nombre}"></td>
+                <td class="py-2" th:text="${u.email}"></td>
+                <td class="py-2" ><a class="p-2 hover:bg-indigo-700 transition-all duration-300 rounded-xs hover:text-white" th:href="@{/editar/}+${u.cedula}" th:utext="#{table.usuario.editar}"></a> <a class="delete-icons hover:bg-red-500 hover:text-white rounded-xs transition-all duration-300 p-2" th:href="@{/eliminar(cedula=${u.cedula})}" th:utext="#{table.usuario.eliminar}"></a></td>
             </tr>
         </table>
     </div>
@@ -35,5 +32,32 @@
         La lista de usuarios esta vacía.
     </div>
     <footer th:replace="plantillas/partes :: pie"></footer>
+    <script>
+        const iconAdd = document.getElementById("add-icon");
+        const deleteIcons = document.querySelectorAll(".delete-icons");
+
+        function eventToggle(item, noHoverClass, hoverClass){
+            item.addEventListener("mouseover", ()=>{
+                item.classList.replace(noHoverClass, hoverClass);
+            })
+            item.addEventListener("mouseout", ()=>{
+                item.classList.replace(hoverClass, noHoverClass);
+            })
+        }
+
+        eventToggle(iconAdd, "bi-person-plus", "bi-person-plus-fill");
+        deleteIcons.forEach( ancore =>{
+            ancore.addEventListener("mouseover", ()=>{
+                const trash = ancore.querySelector("i");
+                trash.classList.replace("bi-trash3","bi-trash3-fill")
+            })
+
+            ancore.addEventListener("mouseout", ()=>{
+                const trash = ancore.querySelector("i");
+                trash.classList.replace("bi-trash3-fill","bi-trash3")
+            })
+        })
+
+    </script>
 </body>
 </html>

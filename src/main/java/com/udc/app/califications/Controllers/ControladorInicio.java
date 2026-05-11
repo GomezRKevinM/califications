@@ -25,8 +25,10 @@ public class ControladorInicio {
     UsuarioServicioImp userService;
     @GetMapping("/")
     public String inicio(Model modelo){
+        String title = "App Web MVC con Springboot";
         List<Usuario> usuarios = (List<Usuario>) userService.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
+        modelo.addAttribute("title", title);
         log.info("Ejecutando el controlador de Inicio");
         return "index";
     }
