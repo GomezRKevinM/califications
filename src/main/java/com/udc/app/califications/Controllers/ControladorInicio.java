@@ -2,6 +2,8 @@ package com.udc.app.califications.Controllers;
 
 import com.udc.app.califications.Dao.IUsuarioCrud;
 import com.udc.app.califications.Models.Usuario;
+import com.udc.app.califications.Models.UsuarioRoles;
+import com.udc.app.califications.Models.UsuarioStatus;
 import com.udc.app.califications.Services.IUsuarioServicio;
 import com.udc.app.califications.Services.UsuarioServicioImp;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,7 +37,9 @@ public class ControladorInicio {
     }
 
     @GetMapping("/agregar")
-    public String agregar(Usuario usuario){
+    public String agregar(Usuario usuario, Model modelo){
+        modelo.addAttribute("roles",UsuarioRoles.values());
+        modelo.addAttribute("states", UsuarioStatus.values());
         return "modificar";
     }
 
@@ -47,11 +52,13 @@ public class ControladorInicio {
         return "redirect:/";
     }
 
-    @GetMapping("/editar/{cedula}")
+    @GetMapping("/editar/{id}")
     public String editar(Usuario usuario, Model modelo){
         log.info("Invocamos el metodo EDITAR");
         usuario = userService.buscar(usuario);
         modelo.addAttribute("usuario", usuario);
+        modelo.addAttribute("roles",UsuarioRoles.values());
+        modelo.addAttribute("states", UsuarioStatus.values());
         return "modificar";
     }
 

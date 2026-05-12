@@ -13,18 +13,18 @@
     <div class="mx-4" th:if="${usuarios != null and !usuarios.empty}">
         <table class="table table-fixed border-collapse border-gray-300 border-1 w-full text-center">
             <tr class="text-cyan-500">
-                <th>CEDULA</th>
-                <th>CLAVE</th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
+                <th>ROLE</th>
+                <th>ACTUALIZADO</th>
                 <th>ACTIONS</th>
             </tr>
             <tr class="odd:bg-white even:bg-slate-100" th:each="u: ${usuarios}">
-                <td class="py-2" th:text="${u.cedula}"></td>
-                <td class="py-2" th:text="${u.clave}"></td>
-                <td class="py-2" th:text="${u.nombre}"></td>
+                <td class="py-2" th:text="${u.name}"></td>
                 <td class="py-2" th:text="${u.email}"></td>
-                <td class="py-2" ><a class="p-2 hover:bg-indigo-700 transition-all duration-300 rounded-xs hover:text-white" th:href="@{/editar/}+${u.cedula}" th:utext="#{table.usuario.editar}"></a> <a class="delete-icons hover:bg-red-500 hover:text-white rounded-xs transition-all duration-300 p-2" th:href="@{/eliminar(cedula=${u.cedula})}" th:utext="#{table.usuario.eliminar}"></a></td>
+                <td class="py-2" th:text="${u.role}"></td>
+                <td class="py-2" th:text="${u.status}"></td>
+                <td class="py-2" ><a class="p-2 hover:bg-indigo-700 transition-all duration-300 rounded-xs hover:text-white" th:href="@{/editar/}+${u.id}" th:utext="#{table.usuario.editar}"></a> <a class="delete-icons hover:bg-red-500 hover:text-white rounded-xs transition-all duration-300 p-2" th:href="@{/eliminar(id=${u.id})}" th:utext="#{table.usuario.eliminar}"></a></td>
             </tr>
         </table>
     </div>

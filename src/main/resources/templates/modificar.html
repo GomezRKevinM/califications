@@ -3,27 +3,86 @@
 <head>
     <meta charset="utf-8">
     <title>Datos del usuario</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
-<body>
-    <h1>[[#{usuario.formulario}]]</h1>
-    <a th:href="@{/}">[[#{accion.regresar}]]</a>
-    <br>
-    <form th:action="@{/guardar}" method="POST" th:object="${usuario}">
-        <br>
-        <labe for="cedula" th:text="#{usuario.cedula}"></labe>
-        <input type="text" name="cedula" th:field="*{cedula}" required/>
-        <br>
-        <label for="clave" th:text="#{usuario.clave}"></label>
-        <input type="password" name="clave" th:field="*{clave}"/>
-        <br>
-        <label for="nombre" th:text="#{usuario.nombre}"></label>
-        <input type="text" name="nombre" th:field="*{nombre}" required/>
-        <br>
-        <label for="email" th:text="#{usuario.email}"></label>
-        <input type="email" name="email" th:field="*{email}"/>
-        <br>
-        <input type="reset" th:value="#{accion.reiniciar}"/> &nbsp;&nbsp;&nbsp;
-        <input type="submit" name="guardar" th:value="#{accion.guardar}" />
-    </form>
+<body class="px-4">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl text-cyan-500 font-bold p-4">[[#{usuario.formulario}]]</h1>
+        <a class="px-2 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-300 flex align-items-center justify-center gap-2 h-content rounded-xl text-gray-500 border-1 border-gray-200" th:href="@{/}"><i class="bi bi-arrow-left "></i>[[#{accion.regresar}]]</a>
+    </div>
+
+    <div class="content">
+        <form class="grid center grid-cols-3 w-full gap-2" th:action="@{/guardar}" method="POST" th:object="${usuario}">
+            <br>
+
+            <input type="hidden" name="id" th:field="*{id}" required/>
+
+            <p th:if="*{createdAt != null}" class="font-bold text-cyan-400">
+                Creado: <input name="created_at" type="datetime-local" class="text-gray-700" th:value="*{createdAt}" readonly>
+            </p>
+
+            <p th:if="*{updatedAt != null}" class="font-bold text-cyan-400">
+                    Actualizado: <input name="updated_at" type="datetime-local" class="text-gray-700" th:value="*{updatedAt}" readonly>
+            </p>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="nombre" th:text="#{usuario.nombre}"></label>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="name" th:field="*{name}" required/>
+            </div>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="email" th:text="#{usuario.email}"></label>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="email" name="email" th:field="*{email}"/>
+            </div>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="clave" th:text="#{usuario.clave}"></label>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="password" name="password" th:field="*{password}"/>
+            </div>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="role">Rol: </label>
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{role != null}" name="role">
+                    <option th:value="*{role}" th:text="*{role}" selected></option>
+                    <th:block th:each="rol: ${roles}">
+                        <option th:if="${rol.name()}!=*{role}" th:value="${rol}" th:text="${rol}"></option>
+                    </th:block>
+                </select>
+
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{role == null}" name="role" required>
+                    <option value="" disabled hidden selected>Selecciona un rol</option>
+                    <th:block th:each="rol: ${roles}">
+                        <option th:value="${rol}" th:text="${rol}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="status">Status: </label>
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{status != null}" name="status" th:field="*{status}" required>
+                    <option th:value="*{status}" th:text="*{status}" selected></option>
+                    <th:block th:each="st: ${states}">
+                        <option th:if="${st.name()}!=*{status}" th:value="${st}" th:text="${st}"></option>
+                    </th:block>
+                </select>
+
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{status == null}" name="status" required>
+                    <option value="" disabled hidden selected>Selecciona un status</option>
+                    <th:block th:each="st: ${states}">
+                        <option th:value="${st}" th:text="${st}"></option>
+                    </th:block>
+                </select>
+
+            </div>
+            <br>
+            <div class="w-full col-span-3 p-2 flex justify-center items-center gap-8">
+                <input class="bg-gray-400 border-2 hover:rounded-full border-white transition-all duration-200 text-gray-700 p-2 rounded-xl hover:cursor-pointer hover:text-gray-900 hover:border-gray-500" type="reset" th:value="#{accion.reiniciar}"/> &nbsp;&nbsp;&nbsp;
+                <input class="bg-green-400 border-2 hover:rounded-full border-white transition-all duration-200 text-gray-700 p-2 rounded-xl hover:cursor-pointer hover:text-gray-900 hover:border-green-500" type="submit" name="guardar" th:value="#{accion.guardar}" />
+            </div>
+
+        </form>
+    </div>
+
 </body>
 </html>
