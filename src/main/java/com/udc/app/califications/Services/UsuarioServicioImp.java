@@ -2,12 +2,11 @@ package com.udc.app.califications.Services;
 
 import com.udc.app.califications.Dao.IUsuarioCrud;
 import com.udc.app.califications.Models.Usuario;
-import org.hibernate.annotations.CurrentTimestamp;
+import com.udc.app.califications.Services.InterfaceServices.IUsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
