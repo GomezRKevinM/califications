@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8">
-    <title>Datos del usuario</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-</head>
+<head th:replace="plantillas/partes :: head(#{modificar.title})"></head>
 <body class="px-4">
     <div class="flex items-center justify-between">
         <h1 class="text-2xl text-cyan-500 font-bold p-4">[[#{usuario.formulario}]]</h1>

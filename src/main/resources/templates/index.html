@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="plantillas/partes :: head"></head>
+<head th:replace="plantillas/partes ::head(#{index.title})"></head>
 <body class="box-border bg-white select-none">
-    <header th:replace="plantillas/partes :: cabecero"></header>
+    <header th:replace="plantillas/partes :: cabecero(#{plantilla.titulo})"></header>
     <h2 class="text-sm text-gray-400 px-4">Pagina de inicio</h2>
+
     <a class="p-8 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Usuario" th:href="@{/agregar}">
         <i id="add-icon" class="bi bi-person-plus text-2xl"></i>
     </a>
@@ -16,7 +17,7 @@
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
                 <th>ROLE</th>
-                <th>ACTUALIZADO</th>
+                <th>STATUS</th>
                 <th>ACTIONS</th>
             </tr>
             <tr class="odd:bg-white even:bg-slate-100" th:each="u: ${usuarios}">
@@ -32,32 +33,6 @@
         La lista de usuarios esta vacía.
     </div>
     <footer th:replace="plantillas/partes :: pie"></footer>
-    <script>
-        const iconAdd = document.getElementById("add-icon");
-        const deleteIcons = document.querySelectorAll(".delete-icons");
-
-        function eventToggle(item, noHoverClass, hoverClass){
-            item.addEventListener("mouseover", ()=>{
-                item.classList.replace(noHoverClass, hoverClass);
-            })
-            item.addEventListener("mouseout", ()=>{
-                item.classList.replace(hoverClass, noHoverClass);
-            })
-        }
-
-        eventToggle(iconAdd, "bi-person-plus", "bi-person-plus-fill");
-        deleteIcons.forEach( ancore =>{
-            ancore.addEventListener("mouseover", ()=>{
-                const trash = ancore.querySelector("i");
-                trash.classList.replace("bi-trash3","bi-trash3-fill")
-            })
-
-            ancore.addEventListener("mouseout", ()=>{
-                const trash = ancore.querySelector("i");
-                trash.classList.replace("bi-trash3-fill","bi-trash3")
-            })
-        })
-
-    </script>
+    <script th:replace="plantillas/partes :: script"></script>
 </body>
 </html>

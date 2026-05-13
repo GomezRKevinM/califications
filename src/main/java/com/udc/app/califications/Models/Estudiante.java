@@ -13,12 +13,13 @@ import java.time.Instant;
 @Data
 public class Estudiante implements Serializable {
     @Id
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false)
     private String nombre;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "`lastName`", nullable = false)
     private String apellido;
 
     @Column(name = "created_at", nullable = false, updatable = false)
