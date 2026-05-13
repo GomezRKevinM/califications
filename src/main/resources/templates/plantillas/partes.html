@@ -1,22 +1,56 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
+<head th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{index.title}"></title>
+    <title th:text="${title}"></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <header th:fragment="cabecero">
-        <h1 class="text-2xl text-cyan-500 font-bold p-4" th:text="#{plantilla.titulo}">El titulo</h1>
+    <header class="flex items-center justify-between" th:fragment="cabecero(titulo)">
+        <h1 class="text-2xl text-cyan-500 font-bold p-4" th:text="${titulo}"></h1>
+        <nav class="px-4 flex items-center gap-4">
+            <a class="hover:text-cyan-400 transition-all duration-300 rounded-xs" th:href="@{/}">
+                <i class="bi bi-person-lines-fill"></i> Usuarios
+            </a>
+            <a class="hover:text-cyan-400 transition-all duration-300 rounded-xs" th:href="@{/student/}">
+                <i class="bi bi-person-workspace"></i> Estudiantes</a>
+        </nav>
     </header>
 
     <footer class="fixed bottom-0 flex justify-center gap-8 text-white bg-cyan-500 w-full" th:fragment="pie">
         <span th:text="#{plantilla.pie}">El pie</span>
         <p>
-            <a href="https://www.youtube.com/@learing-soft"> Canal de Youtube</a>
+            <a class="font-bold hover:text-indigo-700 hover:underline" href="https://www.youtube.com/@learing-soft"> Canal de Youtube</a>
         </p>
     </footer>
+    <script th:fragment="script">
+        const iconAdd = document.getElementById("add-icon");
+        const deleteIcons = document.querySelectorAll(".delete-icons");
+
+        function eventToggle(item, noHoverClass, hoverClass){
+            item.addEventListener("mouseover", ()=>{
+                item.classList.replace(noHoverClass, hoverClass);
+            })
+            item.addEventListener("mouseout", ()=>{
+                item.classList.replace(hoverClass, noHoverClass);
+            })
+        }
+
+        eventToggle(iconAdd, "bi-person-plus", "bi-person-plus-fill");
+        deleteIcons.forEach( ancore =>{
+            ancore.addEventListener("mouseover", ()=>{
+                const trash = ancore.querySelector("i");
+                trash.classList.replace("bi-trash3","bi-trash3-fill")
+            })
+
+            ancore.addEventListener("mouseout", ()=>{
+                const trash = ancore.querySelector("i");
+                trash.classList.replace("bi-trash3-fill","bi-trash3")
+            })
+        })
+
+    </script>
 </body>
 </html>
