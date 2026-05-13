@@ -36,13 +36,13 @@ public class ControladorInicio {
     public String agregar(Usuario usuario, Model modelo){
         modelo.addAttribute("roles",UsuarioRoles.values());
         modelo.addAttribute("states", UsuarioStatus.values());
-        return "modificar";
+        return "Usuario/modificar";
     }
 
     @PostMapping("/guardar")
     public String guardar(@Valid Usuario usuario, Errors errores){
         if(errores.hasErrors()){
-            return "modificar";
+            return "Usuario/modificar";
         }
         userService.guardar(usuario);
         return "redirect:/";
@@ -55,7 +55,7 @@ public class ControladorInicio {
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("roles",UsuarioRoles.values());
         modelo.addAttribute("states", UsuarioStatus.values());
-        return "modificar";
+        return "Usuario/modificar";
     }
 
     @GetMapping("/eliminar")
