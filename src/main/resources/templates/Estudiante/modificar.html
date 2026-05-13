@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="plantillas/partes :: head(#{estudiante.formulario})"></head>
+<body class="px-4">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl text-cyan-500 font-bold p-4">[[#{estudiante.formulario}]]</h1>
+        <a class="px-2 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-300 flex align-items-center justify-center gap-2 h-content rounded-xl text-gray-500 border-1 border-gray-200" th:href="@{/student/}"><i class="bi bi-arrow-left "></i>[[#{accion.regresar}]]</a>
+    </div>
+    <div class="content">
+        <form class="grid center grid-cols-3 w-full gap-2" th:action="@{/student/guardar}" method="POST" th:object="${estudiante}">
+            <br>
+
+            <input type="hidden" name="id" th:field="*{id}" required/>
+
+            <p th:if="*{createdAt != null}" class="font-bold text-cyan-400">
+                Creado: <input name="created_at" type="datetime-local" class="text-gray-700" th:value="*{createdAt}" readonly>
+            </p>
+
+            <p th:if="*{updatedAt != null}" class="font-bold text-cyan-400">
+                Actualizado: <input name="updated_at" type="datetime-local" class="text-gray-700" th:value="*{updatedAt}" readonly>
+            </p>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="nombre" th:text="#{estudiante.nombre}"></label>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="nombre" th:field="*{nombre}" required/>
+            </div>
+
+            <div class="flex justify-start gap-3 items-center">
+                <label class="font-bold text-cyan-400" for="apellido" th:text="#{estudiante.apellido}"></label>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="apellido" th:field="*{apellido}"/>
+            </div>
+
+
+            <br>
+            <div class="w-full col-span-3 p-2 flex justify-center items-center gap-8">
+                <input class="bg-gray-400 border-2 hover:rounded-full border-white transition-all duration-200 text-gray-700 p-2 rounded-xl hover:cursor-pointer hover:text-gray-900 hover:border-gray-500" type="reset" th:value="#{accion.reiniciar}"/> &nbsp;&nbsp;&nbsp;
+                <input class="bg-green-400 border-2 hover:rounded-full border-white transition-all duration-200 text-gray-700 p-2 rounded-xl hover:cursor-pointer hover:text-gray-900 hover:border-green-500" type="submit" name="guardar" th:value="#{accion.guardar}" />
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
