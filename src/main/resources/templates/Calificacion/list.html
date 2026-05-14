@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantillas/partes :: head(#{calificacion.title})"></head>
+<body>
+    <header th:replace="plantillas/partes :: cabecero(#{calificacion.h1})"></header>
+    <h2 class="text-sm text-gray-400 px-4">Página de estudiantes</h2>
+
+    <a class="p-8 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Estudiante" th:href="@{/calification/agregar}">
+        <i id="add-icon" class="bi bi-bookmark-plus text-2xl"></i>
+    </a>
+
+    <h4 class="mx-4 px-4 bg-gray-200">LISTA DE CALIFICACIONES</h4>
+
+    <div class="mx-4" th:if="${calificaciones != null and !calificaiones.empty}">
+        <table class="table table-fixed border-collapse border-gray-300 border-1 w-full text-center">
+            <tr class="text-cyan-500">
+                <th>FECHA</th>
+                <th>DOCENTE</th>
+                <th>ASIGNATURA</th>
+                <th>CARRERA</th>
+                <th>UNIVERSIDAD</th>
+                <th>ESTUDIANTE</th>
+                <th>NOTA</th>
+                <th>ACTIONS</th>
+            </tr>
+            <tr class="odd:bg-white even:bg-slate-100" th:each="c: ${calificaciones}">
+                <td class="py-2" th:text="${c.fecha}"></td>
+                <td class="py-2" th:text="${c.docente}"></td>
+                <td class="py-2" th:text="${c.asignatura}"></td>
+                <td class="py-2" th:text="${c.carrera}"></td>
+                <td class="py-2" th:text="${c.universidad}"></td>
+                <td class="py-2" th:text="${c.estudiante.nombre}"></td>
+                <td class="py-2" th:text="${c.nota}"></td>
+                <td class="py-2" ><a class="p-2 hover:bg-indigo-700 transition-all duration-300 rounded-xs hover:text-white" th:href="@{/calification/editar/}+${c.id}" th:utext="#{table.calificacion.editar}"></a> <a class="delete-icons hover:bg-red-500 hover:text-white rounded-xs transition-all duration-300 p-2" th:href="@{/calification/eliminar(id=${c.id})}" th:utext="#{table.usuario.eliminar}"></a></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${calificaciones == null or calificaciones.empty}">
+        La lista de calificaciones esta vacía.
+    </div>
+
+    <footer th:replace="plantillas/partes :: pie"></footer>
+</body>
+</html>
