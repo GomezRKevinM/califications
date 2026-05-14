@@ -26,8 +26,9 @@ public class UsuarioServicioImp implements IUsuarioServicio {
     @Transactional
     @Override
     public void guardar(Usuario usuario) {
-
-        usuario.setId(UUID.randomUUID().toString());
+        if(usuario.getId() == null || usuario.getId().isEmpty()){
+            usuario.setId(UUID.randomUUID().toString());
+        }
 
         String hasPass = hash.hashPassword(usuario.getPassword());
         usuario.setPassword(hasPass);

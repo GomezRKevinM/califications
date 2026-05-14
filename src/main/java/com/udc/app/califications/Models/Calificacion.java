@@ -20,7 +20,7 @@ public class Calificacion implements Serializable {
     @NotEmpty
     private String id;
 
-    @NotEmpty
+    @Column(name = "fecha", nullable = false, updatable = false)
     private Timestamp fecha;
 
     @NotEmpty
@@ -57,28 +57,4 @@ public class Calificacion implements Serializable {
     @DecimalMin(value = "0")
     @DecimalMax(value = "5")
     private double nota;
-
-    @NotEmpty
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp createdAt;
-
-    @NotEmpty
-    @Column(name = "updated_at", nullable = false, updatable = true)
-    private Timestamp updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        if (createdAt == null) {
-            createdAt = now;
-        }
-        if (updatedAt == null) {
-            updatedAt = now;
-        }
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = new Timestamp(System.currentTimeMillis());
-    }
 }

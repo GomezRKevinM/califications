@@ -18,7 +18,9 @@ public class EstudianteServicioImp implements IEstudianteServicio {
     @Transactional
     @Override
     public void guardar(Estudiante estudiante) {
-        estudiante.setId(UUID.randomUUID().toString());
+        if(estudiante.getId() == null || estudiante.getId().isEmpty()){
+            estudiante.setId(UUID.randomUUID().toString());
+        }
         crudEstudiante.save(estudiante);
     }
 

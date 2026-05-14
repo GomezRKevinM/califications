@@ -10,14 +10,10 @@
         <form class="grid center grid-cols-3 w-full gap-2" th:action="@{/calification/guardar}" method="POST" th:object="${calificacion}">
             <br>
 
-            <input type="hidden" name="id" th:field="*{id}" required/>
+            <input type="hidden" name="id" th:value="*{id}" th:field="*{id}" required/>
 
-            <p th:if="*{createdAt != null}" class="font-bold text-cyan-400">
-                Creado: <input name="created_at" type="datetime-local" class="text-gray-700" th:value="*{createdAt}" readonly>
-            </p>
-
-            <p th:if="*{updatedAt != null}" class="font-bold text-cyan-400">
-                Actualizado: <input name="updated_at" type="datetime-local" class="text-gray-700" th:value="*{updatedAt}" readonly>
+            <p th:if="*{fecha != null}" class="font-bold text-cyan-400">
+                Creado: <input type="datetime-local" class="text-gray-700 outline-none" th:value="*{fecha}" readonly>
             </p>
 
             <div class="flex justify-start gap-3 items-center">
@@ -27,45 +23,45 @@
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="asignatura" th:text="#{calificacion.asignatura}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="asignatura" th:field="*{asignatura}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="asignatura" th:field="*{asignatura}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="carrera" th:text="#{calificacion.carrera}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="carrera" th:field="*{carrera}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="carrera" th:field="*{carrera}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="universidad" th:text="#{calificacion.universidad}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="universidad" th:field="*{universidad}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="universidad" th:field="*{universidad}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="periodo" th:text="#{calificacion.periodo}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="periodo" th:field="*{periodo}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="periodo" th:field="*{periodo}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="actividadEvaluada" th:text="#{calificacion.actividadEvaluada}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="actividadEvaluada" th:field="*{actividadEvaluada}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="text" name="actividadEvaluada" th:field="*{actividadEvaluada}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="porcentaje" th:text="#{calificacion.porcentaje}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="number" th:min="0.01" th:max="1.0" name="porcentaje" th:field="*{porcentaje}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="number" th:min="1" th:max="100" name="porcentaje" th:field="*{porcentaje}" required/>
             </div>
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="estudiante" th:text="#{calificacion.estudiante}"></label>
-                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{estudiante != null}" name="estudiante">
-                    <option th:value="*{estudiante.id()}" th:text="*{esudiante.name() + ' ' + estudiante.lastName()}" selected></option>
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{estudiante != null}" name="estudiante" required>
+                    <option th:value="*{estudiante.id}" th:text="*{estudiante.nombre + ' ' + estudiante.apellido}" selected></option>
                     <th:block th:each="es: ${estudiantes}">
-                        <option th:if="${es.id()}!=*{estudiante.id()}" th:value="${es.id()}" th:text="${es.nombre() + ' ' + es.apellido()}"></option>
+                        <option th:if="${es.id}!=*{estudiante.id}" th:value="${es.id}" th:text="${es.nombre + ' ' + es.apellido}"></option>
                     </th:block>
                 </select>
 
-                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{role == null}" name="role" required>
-                    <option value="" disabled hidden selected>Selecciona un rol</option>
+                <select class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" th:if="*{estudiante == null}" name="estudiante" required>
+                    <option value="" disabled hidden selected>Selecciona un estudiante</option>
                     <th:block th:each="es: ${estudiantes}">
                         <option th:value="${es.id}" th:text="${es.nombre + ' ' + es.apellido}"></option>
                     </th:block>
@@ -74,7 +70,7 @@
 
             <div class="flex justify-start gap-3 items-center">
                 <label class="font-bold text-cyan-400" for="nota" th:text="#{calificacion.nota}"></label>
-                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="number" th:min="0.01" th:max="5.0" name="nota" th:field="*{nota}"/>
+                <input class="p-2 px-4 border-gray-200 border-1 rounded-xl outline-cyan-400" type="number" step="any" th:min="0" th:max="5" name="nota" th:field="*{nota}" required/>
             </div>
 
             <br>

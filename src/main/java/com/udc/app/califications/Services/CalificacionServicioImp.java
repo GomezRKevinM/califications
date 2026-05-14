@@ -1,13 +1,16 @@
 package com.udc.app.califications.Services;
 
-import com.udc.app.califications.Dao.ICalificacionCrud;
-import com.udc.app.califications.Models.Calificacion;
-import com.udc.app.califications.Services.InterfaceServices.ICalificacionServicio;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.udc.app.califications.Dao.ICalificacionCrud;
+import com.udc.app.califications.Models.Calificacion;
+import com.udc.app.califications.Services.InterfaceServices.ICalificacionServicio;
 
 @Service
 public class CalificacionServicioImp implements ICalificacionServicio {
@@ -17,6 +20,9 @@ public class CalificacionServicioImp implements ICalificacionServicio {
     @Override
     @Transactional
     public void guardar(Calificacion calificacion) {
+        if(calificacion.getId() == null || calificacion.getId().isEmpty()){
+            calificacion.setId(UUID.randomUUID().toString());
+        }
         crudCalificacion.save(calificacion);
     }
 
