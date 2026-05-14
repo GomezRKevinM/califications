@@ -7,11 +7,15 @@ import lombok.Data;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
 @Data
 public class Estudiante implements Serializable {
+
+    public Estudiante() {}
+
     @Id
     @Column(name = "id", nullable = false)
     private String id;
@@ -27,6 +31,9 @@ public class Estudiante implements Serializable {
 
     @Column(name = "updated_at", nullable = false, updatable = true)
     private Timestamp updatedAt;
+
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, targetEntity = Calificacion.class)
+    private List<Calificacion> calificaciones;
 
     @PrePersist
     public void prePersist() {

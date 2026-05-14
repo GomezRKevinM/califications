@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantillas/partes :: head(#{calificacion.title})"></head>
+<body>
+    <header th:replace="plantillas/partes :: cabecero(#{calificacion.h1})"></header>
+    <h2 class="text-sm text-gray-400 px-4">Página de estudiantes</h2>
+
+    <a class="mx-8 mt-2 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Calificacion" th:href="@{/calification/agregar}">
+        <i id="add-icon" class="bi bi-bookmark-plus text-2xl"></i>
+    </a>
+
+    <h4 class="mx-4 mt-4 px-4 bg-gray-200"><i class="bi bi-list-check"></i> LISTA DE CALIFICACIONES</h4>
+
+    <div class="mx-4" th:if="${calificaciones != null}">
+        <table class="table table-fixed border-collapse border-gray-300 border-1 w-full text-center">
+            <tr class="text-cyan-500">
+                <th>FECHA</th>
+                <th>DOCENTE</th>
+                <th>ASIGNATURA</th>
+                <th>CARRERA</th>
+                <th>UNIVERSIDAD</th>
+                <th>ESTUDIANTE</th>
+                <th>NOTA</th>
+                <th>ACTIONS</th>
+            </tr>
+            <tr>
+                <th colspan="8" class="text-gray-500 p-4" th:if="${calificaciones == null or calificaciones.empty}">
+                    La lista de calificaciones esta vacía 😒
+                </th>
+            </tr>
+            <tr th:data-id="*{c.id}" th:data-fecha="*{c.fecha}" th:data-docente="*{c.docente}" th:data-asignatura="*{c.asignatura}" th:data-carrera="*{c.carrera}" th:data-universidad="*{c.universidad}" th:data-periodo="*{c.periodo}" th:data-actividadEvaluada="*{c.actividadEvaluada}" th:data-porcentaje="*{c.porcentaje}" th:data-estudiante="*{c.estudiante.nombre + ' ' + c.estudiante.apellido}" th:data-nota="*{c.nota}" class="odd:bg-white even:bg-slate-100" th:each="c: ${calificaciones}">
+                <td class="py-2" th:text="${c.fecha}"></td>
+                <td class="py-2" th:text="${c.docente}"></td>
+                <td class="py-2" th:text="${c.asignatura}"></td>
+                <td class="py-2" th:text="${c.carrera}"></td>
+                <td class="py-2" th:text="${c.universidad}"></td>
+                <td class="py-2" th:text="${c.estudiante.nombre}"></td>
+                <td class="py-2 w-xs calificacion-nota" th:text="${c.nota}"></td>
+                <td class="py-2 w-full gap-2" >
+                    <button title="Ver Datos" class="calification hover:cursor-pointer rounded-xs px-2 hover:bg-cyan-500 hover:text-white transition-colors duration-300 ease-in-out"><i class="bi bi-eye-fill"></i></button>
+                    <a title="Editar Calificacion" class="px-2 hover:bg-indigo-700 transition-all duration-300 rounded-xs hover:text-white" th:href="@{/calification/editar/}+${c.id}" th:utext="#{table.calificacion.editar}"></a>
+                    <a title="Eliminar Calificacion" class="delete-icons hover:bg-red-500 hover:text-white rounded-xs transition-all duration-300 px-2" th:href="@{/calification/eliminar(id=${c.id})}" th:utext="#{table.calificacion.eliminar}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <dialog class="p-4 py-6 border-none outline-none rounded-xl fixed top-50 left-100 shadow shadow-xl">
+        <div>
+            <h2 class="font-bold  text-xl text-cyan-500">Datos de la Calificación</h2>
+            <div class="py-4 text-xs flex items-center justify-between text-gray-400">
+                <p>
+                    Creada: <span id="fecha_calification"></span>
+                </p>
+                <p>
+                    id: <span id="id_calification"></span>
+                </p>
+            </div>
+            <section class="grid grid-cols-2 gap-4 font-bold text-gray-900">
+                <h2>Docente: <span class="font-normal text-gray-700" id="docente_calification"></span></h2>
+                <h2>Asignatura: <span class="font-normal text-gray-700" id="asignatura_calification"></span></h2>
+                <h2>Carrera: <span class="font-normal text-gray-700" id="carrera_calification"></span></h2>
+                <h2>Universidad: <span class="font-normal text-gray-700" id="universidad_calification"></span></h2>
+                <h2>Periodo: <span class="font-normal text-gray-700" id="periodo_calification"></span></h2>
+                <h2>Actividad Evaluada: <span class="font-normal text-gray-700" id="actividadEvaluada_calification"></span></h2>
+                <h2>Porcentaje: <span class="font-normal text-gray-700" id="porcentaje_calification"></span></h2>
+                <h2>Estudiante: <span class="font-normal text-gray-700" id="estudiante_calification"></span></h2>
+                <h2>Nota: <span class="font-normal text-gray-700" id="nota_calification"></span></h2>
+                <div>
+                    <form method="dialog" class="col-span-2">
+                        <button class="text-cyan-500 outline-none w-full text-end px-8 hover:text-cyan-700 hover:cursor-pointer">Cerrar</button>
+                    </form>
+                </div>
+
+            </section>
+        </div>
+    </dialog>
+
+    <footer th:replace="plantillas/partes :: pie"></footer>
+    <script>
+        const notasTh = document.querySelectorAll('.calificacion-nota');
+        notasTh.forEach(nota => {
+            const value = Number.parseFloat(nota.innerHTML);
+            if(value >= 3){
+                nota.classList.add('text-green-500');
+            }else{
+                nota.classList.add('text-red-500');
+            }
+        })
+
+        const showButton = document.querySelectorAll('.calification');
+
+        showButton.forEach(button => {
+            button.addEventListener('click', (Event) => {
+                const calification = Event.target.parentElement.parentElement.parentElement;
+                showCalification(
+                    calification.getAttribute('data-id'),
+                    calification.getAttribute('data-fecha'),
+                    calification.getAttribute('data-docente'),
+                    calification.getAttribute('data-asignatura'),
+                    calification.getAttribute('data-carrera'),
+                    calification.getAttribute('data-universidad'),
+                    calification.getAttribute('data-periodo'),
+                    calification.getAttribute('data-actividadEvaluada'),
+                    calification.getAttribute('data-porcentaje'),
+                    calification.getAttribute('data-estudiante'),
+                    calification.getAttribute('data-nota')
+                )
+            })
+        })
+
+
+        function showCalification(id, fecha, docente, asignatura, carrera, universidad, periodo, actividadEvaluada, porcentaje, estudiante, nota){
+            const modal = document.querySelector('dialog');
+            document.getElementById('id_calification').innerHTML = id;
+            document.getElementById('fecha_calification').innerHTML = fecha;
+            document.getElementById('docente_calification').innerHTML = docente;
+            document.getElementById('asignatura_calification').innerHTML = asignatura;
+            document.getElementById('carrera_calification').innerHTML = carrera;
+            document.getElementById('universidad_calification').innerHTML = universidad;
+            document.getElementById('periodo_calification').innerHTML = periodo;
+            document.getElementById('actividadEvaluada_calification').innerHTML = actividadEvaluada;
+            document.getElementById('porcentaje_calification').innerHTML = porcentaje;
+            document.getElementById('estudiante_calification').innerHTML = estudiante;
+            const note = document.getElementById('nota_calification');
+            note.innerHTML = nota;
+
+            const noteValue = Number.parseFloat(nota);
+            if(noteValue >= 3){
+                note.classList.add('text-green-500');
+            }else{
+                note.classList.add('text-red-500');
+            }
+
+
+            modal.showModal();
+        }
+
+    </script>
+</body>
+</html>

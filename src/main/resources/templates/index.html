@@ -5,11 +5,11 @@
     <header th:replace="plantillas/partes :: cabecero(#{plantilla.titulo})"></header>
     <h2 class="text-sm text-gray-400 px-4">Pagina de inicio</h2>
 
-    <a class="p-8 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Usuario" th:href="@{/agregar}">
+    <a class="mx-8 mt-2 text-cyan-400 transition-colors duration-200 ease-in-out" title="Agregar Usuario" th:href="@{/agregar}">
         <i id="add-icon" class="bi bi-person-plus text-2xl"></i>
     </a>
 
-    <h4 class="mx-4 px-4 bg-gray-200">LISTA DE PERSONAS</h4>
+    <h4 class="mx-4 mt-4 px-4 bg-gray-200"><i class="bi bi-person-fill"></i> LISTA DE PERSONAS</h4>
 
     <div class="mx-4" th:if="${usuarios != null and !usuarios.empty}">
         <table class="table table-fixed border-collapse border-gray-300 border-1 w-full text-center">
