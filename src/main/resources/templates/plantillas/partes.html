@@ -10,16 +10,19 @@
 <body>
     <header class="flex items-center justify-between" th:fragment="cabecero(titulo)">
         <h1 class="text-2xl text-cyan-500 font-bold p-4" th:text="${titulo}"></h1>
-        <nav class="px-4 flex items-center gap-4">
-            <a class="hover:text-cyan-400 transition-all duration-300 rounded-xs" th:href="@{/}">
+        <nav class="px-4  text-lg flex items-center gap-4">
+            <a class="hover:text-cyan-400 transition-all duration-300" th:href="@{/}" >
                 <i class="bi bi-person-lines-fill"></i> Usuarios
             </a>
-            <a class="hover:text-cyan-400 transition-all duration-300 rounded-xs" th:href="@{/student/}">
+            <a class="hover:text-cyan-400 transition-all duration-300" th:href="@{/student/}">
                 <i class="bi bi-person-workspace"></i> Estudiantes
             </a>
-            <a class="hover:text-cyan-400 transition-all duration-300 rounded-xs" th:href="@{/calification/}">
+            <a class="hover:text-cyan-400 transition-all duration-300" th:href="@{/calification/}">
                 <i class="bi bi-journal-bookmark-fill"></i> Calificaciones
             </a>
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button class="hover:text-cyan-400 hover:cursor-pointer transition-all duration-300" type="submit"><i class="bi bi-door-closed-fill"></i> Cerrar Sesión</button>
+            </form>
         </nav>
     </header>
 

@@ -32,6 +32,11 @@ public class ControladorInicio {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/agregar")
     public String agregar(Usuario usuario, Model modelo){
         modelo.addAttribute("roles",UsuarioRoles.values());
