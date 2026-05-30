@@ -1,10 +1,7 @@
 package com.udc.app.califications.Models;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +14,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
