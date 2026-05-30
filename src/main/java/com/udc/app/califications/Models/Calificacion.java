@@ -20,7 +20,7 @@ public class Calificacion implements Serializable {
     @NotEmpty
     private String id;
 
-    @Column(name = "fecha", nullable = false, updatable = false)
+    @Column(name = "fecha", nullable = true, updatable = false)
     private Timestamp fecha;
 
     @NotEmpty

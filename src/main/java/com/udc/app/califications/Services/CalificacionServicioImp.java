@@ -20,6 +20,9 @@ public class CalificacionServicioImp implements ICalificacionServicio {
     @Override
     @Transactional
     public void guardar(Calificacion calificacion) {
+        if(calificacion.getFecha() == null){
+            calificacion.setFecha(new Timestamp(System.currentTimeMillis()));
+        }
         if(calificacion.getId() == null || calificacion.getId().isEmpty()){
             calificacion.setId(UUID.randomUUID().toString());
         }
